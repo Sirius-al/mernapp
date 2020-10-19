@@ -13,7 +13,7 @@ const connectToDb = async () => {
             useUnifiedTopology: true,
             useFindAndModify: false
         });
-        console.log('Mongodb database connected SuccessFully')
+        console.log('Database connected SuccessFully')
     } catch (err) {
       console.log(`Error Connection to database : ${err}`)
 
