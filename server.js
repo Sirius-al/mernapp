@@ -1,11 +1,40 @@
 const express = require('express');
-const connectToDb = require('./config/connectToDb');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
+const AppError = require('./utils/AppError');
+const globalErrorHandler = require('./Controller/ErrorController');
+
+//! Initializing special configs
 const app = express();
 
+dotenv.config({
+    path: './config.env'
+})
 
-//! databse Connection established
-connectToDb()
+
+
+//! database Connection establishing
+
+const db = process.env.MONGOURI
+
+const connecttoDB = async () => {
+    try {
+        await mongoose.connect(db, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        });
+        console.log('Database connected SuccessFully')
+    } catch (err) {
+      console.log(`Error Connection to database : ${err}`)
+
+      process.exit(1)
+    }
+}
+connecttoDB()
+//! database Connection established
 
 
 //* INIT middleWares
@@ -16,11 +45,18 @@ app.get('/', (req, res) => {
     res.send('Server Running');
 });
 
-//@ routes defination
-app.use('/api/users', require('./routes/api/users'));
-app.use('/api/profile', require('./routes/api/profile'));
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/posts', require('./routes/api/posts'));
+//@ routes definations
+app.use('/api/users', require('./routes/api/usersRoutes'));
+app.use('/api/profile', require('./routes/api/profileRoutes'));
+app.use('/api/posts', require('./routes/api/postsRoutes'));
+
+//! to catch unexpected routes
+app.all('*', (req, res, next) => {
+    next(new AppError(`Cannot find the Route => ${req.originalUrl} <= on the Server `))
+});
+app.use(globalErrorHandler)
+
+
 
 
 
