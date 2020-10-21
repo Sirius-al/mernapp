@@ -17,16 +17,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'password is Required'],
     },
-    confirmPassword: {
+    /* confirmPassword: {
         type: String,
         required: [true, 'password confirmation is required'],
-        validate: {
-            validator: function (confirmPassword) {
-                return confirmPassword === this.password;
-            },
-            message: `Passwords didn't match!`
-        }
-    },
+    }, */
     avatar: {
         type: String,
 

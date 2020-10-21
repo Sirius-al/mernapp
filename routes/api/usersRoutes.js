@@ -1,7 +1,10 @@
 const express = require('express');
-const { check, validationResult }  = require('express-validator');
+const User = require('./../../Models/UsersModel');
+const AppError = require('../../utils/AppError');
+const gravatar = require('gravatar');
+const bcrypt = require('bcryptjs');
 
-const UserController = require('../../Controller/UserController');
+const UserController = require('./../../Controller/UserController');
 
 
 const router = express.Router();
@@ -16,7 +19,13 @@ const router = express.Router();
 //? Route:    POST => api/users
 //? Desc:     Testing Route
 //? access:   Public
-router.post('/signup', UserController.userSignUp)
+router.post('/', UserController.userSignUp);
+
+//? Route:    POST => api/users/login
+//? Desc:     Testing Route
+//? access:   Public
+router.get('/', UserController.userLogin);
+
 
 
 
