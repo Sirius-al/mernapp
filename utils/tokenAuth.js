@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports = function(req, res, next) {
-    const token = Object.assign(req.query)['x-auth-token'];
+    const token = Object.assign(req.headers)['x-auth-token'];
     // console.log(token)
-
+    // console.log(req.headers)
+    
     if (!token) {
       return res.status(401).json({
           message: 'NO token found! Authorization failed... 😟'
