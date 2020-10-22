@@ -39,6 +39,9 @@ const ProfileSchema = new mongoose.Schema({
                 type: String,
                 required: [true, 'please tell us about your experience']
             },
+            website: {
+                type: String
+            },
             location: {
                 type: String
             },
@@ -47,7 +50,7 @@ const ProfileSchema = new mongoose.Schema({
                 required: [true, 'Please tell us when did you started working at that postion']
             },
             to: {
-                type: String
+                type: Date
             },
             current: {
                 type: Boolean,
@@ -60,7 +63,7 @@ const ProfileSchema = new mongoose.Schema({
     ],
     education: [
         {
-            school: {
+            institute: {
                 type: String,
                 required: [true, 'which school did you studied from!']
             },
@@ -77,7 +80,7 @@ const ProfileSchema = new mongoose.Schema({
                 required: [true, 'Please tell us when did got started !']
             },
             to: {
-                type: String
+                type: Date
             },
             current: {
                 type: Boolean,
