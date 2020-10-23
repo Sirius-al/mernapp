@@ -24,7 +24,8 @@ const postSchema = new mongoose.Schema({
             user: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User'
-            }
+            },
+            liked: Boolean
         }
     ],
     comment: [
