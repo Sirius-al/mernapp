@@ -198,24 +198,61 @@ exports.unLikePost = async (req, res, next) => {
 exports.createComment = async (req, res, next) => {
 
     if (!req.body.title || validator.isEmpty(req.body.title)) return errRes(res, 400, 'title is Required')
-    if (!req.body.text || validator.isEmpty(req.body.text)) return errRes(res, 400, 'text is Required')
+    if (!req.body.description || validator.isEmpty(req.body.description)) return errRes(res, 400, 'description is Required')
     
     
     try {
         const user = await User.findById(req.user.id).select('-password')
+        const post = await Post.findById(req.params.id)
         
-        let newPost = {
+        let newComment = {
             title: req.body.title,
-            text: req.body.text,
+            description: req.body.description,
             user: req.user.id,
             name: user.name,
             avatar: user.avatar,
         }
-        const post = await Post.create(newPost)
-        Res(res, 201, post)
+
+        if (req.user.id.toString() === post.user.toString()) {
+            return errRes(res, 400, 'The user who created the post cannot comment on their own post')
+        }
+
+        post.comments.unshift(newComment)
+        await post.save()
+
+        Res(res, 201, post.comments)
         
     } catch (err) {
       console.log(err)
-      res.status(500).send('Server error creating post')
+      res.status(500).send('Server error creating comment')
+    }
+}
+
+
+
+exports.deleteComment = async (req, res, next) => {
+
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        const post = await Post.findById(req.params.id)
+        
+        let comment = post.comments.find(comment => comment.id === req.params.comment_id)
+
+        if (!comment) {
+          return errRes(res, 404, 'Comment not found !')
+        }
+
+        if (!(comment.user.toString() === req.user.id.toString())) {
+            return errRes(res, 400, 'The user who created the comment can delete the comment')
+        }
+
+        post.comments.splice(comment, 1)
+        await post.save()
+
+        Res(res, 201, post.comments)
+        
+    } catch (err) {
+      console.log(err)
+      res.status(500).send('Server error deleting comment')
     }
 }

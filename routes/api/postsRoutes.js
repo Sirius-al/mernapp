@@ -41,10 +41,16 @@ router.patch('/like/:id', tokenAuth, postController.likePost)
 router.patch('/unlike/:id', tokenAuth, postController.unLikePost)
 
 
-//? Route:    POST => api/posts/comment
-//? Desc:     Post create Route
+//? Route:    PATCH => api/posts/comment/:id
+//? Desc:     comment create Route
 //? access:   Private
-router.post('/comment', tokenAuth, postController.createComment)
+router.patch('/comment/:id', tokenAuth, postController.createComment)
+
+
+//? Route:    PATCH => api/posts/comment/:id/:comment_id
+//? Desc:     Delete comment Route
+//? access:   Private
+router.delete('/comment/:id/:comment_id', tokenAuth, postController.deleteComment)
 
 
 module.exports = router;
