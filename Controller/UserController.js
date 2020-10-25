@@ -47,13 +47,10 @@ exports.userSignUp = async (req, res, next) => {
             expiresIn: 360000
         }, (err, token) => {
             if (err) throw err;
-            console.log(token)
+            // console.log(token)
             res.status(201).json({
                 success: true,
-                token,
-                data: {
-                    user: newUser
-                } 
+                token
             })
         })
 
