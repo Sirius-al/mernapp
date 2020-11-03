@@ -1,8 +1,4 @@
 const express = require('express');
-const User = require('./../../Models/UsersModel');
-const AppError = require('../../utils/AppError');
-const gravatar = require('gravatar');
-const bcrypt = require('bcryptjs');
 
 const UserController = require('./../../Controller/UserController');
 
@@ -24,7 +20,7 @@ router.post('/', UserController.userSignUp);
 //? Route:    POST => api/users/login
 //? Desc:     Testing Route
 //? access:   Public
-router.get('/', UserController.userLogin);
+router.post('/login', UserController.userLogin);
 
 
 

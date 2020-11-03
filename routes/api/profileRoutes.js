@@ -49,7 +49,7 @@ router.delete('/', tokenAuth, profileController.deleteProfileUserPosts)
 
 
 //? Route:    GET => api/profile/:User_id
-//? Desc:     Get all profiles
+//? Desc:     Get profile by user_id 
 //? access:   Public
 router.get('/:user_id', profileController.getProfileByUserId)
 
@@ -57,7 +57,7 @@ router.get('/:user_id', profileController.getProfileByUserId)
 //? Route:    GET => api/profile/me
 //? Desc:     Get profile of the current user based on id(inside token)
 //? access:   Private
-router.get('/me', tokenAuth, profileController.getMyProfile)
+router.get('/user/me', tokenAuth, profileController.getMyProfile)
 
 
 //? Route:    GET => api/profile/github/:username

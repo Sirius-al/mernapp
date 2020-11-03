@@ -66,7 +66,7 @@ exports.userLogin = async (req, res, next) => {
 
         if (!email || !password) {
             return res.status(400).json({
-                error: `email or password are required`
+                error: `email or password is required`
             })
         }
         

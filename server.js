@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./Controller/ErrorController');
@@ -51,6 +52,12 @@ connecttoDB()
 //! INIT middleWares
 app.use(express.json({ extended: false }))
 
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
     res.send('Server Running');
