@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Actions/alertActions';
 import { register } from '../../Actions/authAction';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({ setAlert, register, auth }) => {
+
+    const { isAuthenticated, registered } = auth
 
     const [formData, setFormData] = useState({
         name: '',
@@ -31,8 +33,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     }
 
     //* redirect is isAuthenticated
-    if (isAuthenticated) {
-      return <Redirect to='/dashboard'/>
+    if (!isAuthenticated && registered) {
+      return <Redirect to='/login'/>
     }
 
     return (
@@ -100,7 +102,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { setAlert, register })(Register);

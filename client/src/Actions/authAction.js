@@ -51,7 +51,7 @@ export const register = ({ name, email, password }) => async dispatch => {
 
     try {
       const res = await axios.post('/api/users', body, config)
-
+      console.log(res)
       dispatch({ 
         type: REGISTER_SUCCESS,
         payload: res.data
@@ -59,9 +59,10 @@ export const register = ({ name, email, password }) => async dispatch => {
        dispatch(loadUser())
     } catch (err) {
         // console.log(err.response.data.error)
-        const error = err.response.data.error
+        const error = err.response
+        console.log(err)
         if (error) {
-          dispatch(setAlert(error, 'danger', 2000))
+          dispatch(setAlert(error.data.error, 'danger', 2000))
         }
         dispatch({ 
             type: REGISTER_FAIL
@@ -93,9 +94,9 @@ export const login = (email, password) => async dispatch => {
        dispatch(loadUser())
     } catch (err) {
         // console.log(err.message)
-        const error = err.response.data.error
+        const error = err.response
         if (error) {
-          dispatch(setAlert(error, 'danger', 2000))
+          dispatch(setAlert("please make sure that you are Signed-Up", 'danger', 2000))
         }
         dispatch({ 
             type: LOGIN_FAIL

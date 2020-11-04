@@ -114,15 +114,11 @@ exports.getAllProfiles = async (req, res, next) => {
 
 exports.deleteProfileUserPosts = async (req, res, next) => {
     try {
-        const profile = await Profile.findOneAndRemove({ user: req.user.id });
-        const user = await User.findOneAndRemove({ _id: req.user.id });
-
-        if (!profile || !user) {
-            res.status(400).json({
-                message: 'No data found.. User or Profile alreary removed !'
-            })
-          
-        }
+        
+        await Profile.findOneAndRemove({ user: req.user.id });
+        
+        await User.findOneAndRemove({ _id: req.user.id });
+        
 
         res.status(204).json({
             success: true,

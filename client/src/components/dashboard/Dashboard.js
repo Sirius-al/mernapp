@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getCurrentProfile } from '../../Actions/profileActions'
+import { getCurrentProfile, DeleteWholeAccount } from '../../Actions/profileActions'
 import D_mainFrame from './D_mainFrame'
 
 // import Spinner from '../layouts/Spinner'
 
-const Dashboard = ({ getCurrentProfile, auth, profile }) => {
+const Dashboard = ({ getCurrentProfile, DeleteWholeAccount, auth, profile }) => {
 
     useEffect(() => {
         getCurrentProfile(auth.token)
@@ -35,27 +35,44 @@ const Dashboard = ({ getCurrentProfile, auth, profile }) => {
           </Fragment>
         );
     } 
-
-
-
+    
+    
     return (
       <Fragment>
-            <div>
-              <h1 className="large text-primary">Dashboard</h1>
-              <p className="lead">
-                <i className="fas fa-user" /> Welcome { user && user.name }
-              </p>
-              {profile.profile !== null ? <Fragment> {renderButtons()} </Fragment> : <Fragment> 
-                {profile.error.msg} <br/> <Link to="/create-profile" className="btn btn-primary">
-                   Create Profile </Link> </Fragment>}
-            </div>
-            <D_mainFrame />
-          </Fragment>
-    )
+        <div>
+          <h1 className="large text-primary">Dashboard</h1>
+          <p className="lead">
+            <i className="fas fa-user" /> Welcome {user && user.name}
+          </p>
+          {profile.profile !== null ? (
+            <Fragment> {renderButtons()} </Fragment>
+          ) : (
+            <Fragment>
+              {profile.error.msg} <br />{" "}
+              <Link to="/create-profile" className="btn btn-primary">
+                Create Profile{" "}
+              </Link>{" "}
+            </Fragment>
+          )}
+        </div>
+          {profile.profile === null ? '' :  
+          <D_mainFrame
+          experience={!profile.profile ? [] : profile.profile.experience}
+          education={!profile.profile ? [] : profile.profile.education}
+        />}
+        <div className="my-2">
+          <button className="btn btn-danger" onClick={() => DeleteWholeAccount(auth.token)}>
+            <i className="fas fa-user-minus" />
+            Delete My Account
+          </button>
+        </div>
+      </Fragment>
+    );
 }
+
 const mapStateToProps = state => ({
     auth: state.auth,
     profile: state.profile
 })
 
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, DeleteWholeAccount })(Dashboard);

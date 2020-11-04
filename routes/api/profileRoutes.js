@@ -43,7 +43,7 @@ router.get('/', profileController.getAllProfiles)
 
 
 //! Route:    Delete => api/profile
-//? Desc:     Get all profiles
+//? Desc:     Delete Whole Profile
 //? access:   Private
 router.delete('/', tokenAuth, profileController.deleteProfileUserPosts)
 
