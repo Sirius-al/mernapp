@@ -25,6 +25,12 @@ export default function(state = INITIAL_STATE, action) {
                 profiles: payload.data.profiles,
                 loading: false
             }
+        case GET_REPOS :
+            return {
+                ...state,
+                loading: false,
+                repos: payload.data.data
+            }
         case GET_PROFILE :
         case UPDATE_PROFILE :
             return {
@@ -38,11 +44,6 @@ export default function(state = INITIAL_STATE, action) {
                 error: payload,
                 loading: false
             }
-        case PROFILE_ERROR :
-            return {
-                ...state,
-                error: payload
-            };
         case CLEAR_PROFILE:
             return {
                 ...state,

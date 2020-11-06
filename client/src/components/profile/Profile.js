@@ -15,7 +15,7 @@ function Profile({ match, getProfileByID, profile: {profile, loading}, auth }) {
 
     useEffect(() => {
         getProfileByID(match.params.id)
-    }, [getProfileByID])
+    }, [getProfileByID, match.params.id])
 
 
     const mainFrame = () => {
