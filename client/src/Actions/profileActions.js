@@ -1,10 +1,9 @@
-import axios from 'axios';
 import backendCall from '../utils/backendCall';
 import { setAlert } from './alertActions';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT, CLEAR_PROFILE, GET_All_PROFILE } from './types';
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT, CLEAR_PROFILE, GET_All_PROFILES, GET_REPOS } from './types';
 
 
-//* get current users profile
+//? ******************************************************************* get current users profile
 export const getCurrentProfile = (token) => async dispatch => {
 
     const config = {
@@ -33,16 +32,62 @@ export const getCurrentProfile = (token) => async dispatch => {
 }  
 
 
-//* Get all profiles
+//? ******************************************************************* Get all profiles
 
-const getAllProfiles = () => async dispatch => {
+export const getAllProfiles = () => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE })
   try {
     const res = await backendCall.get('/api/profile/')
     // console.log(res)
 
     dispatch({
-      type: GET_All_PROFILE,
-      payload: res.data
+      type: GET_All_PROFILES,
+      payload: res
+    })
+  } catch (err) {
+      const error = err.response
+      // console.error(error)
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: error.data.message, status: error.status }
+      })
+      
+  }
+}
+
+//? ******************************************************************* Get Github repos
+
+export const getGithubRepos = (username) => async dispatch => {
+  try {
+    const res = await backendCall.get(`/api/profile/github/${username}`)
+    // console.log(res)
+
+    dispatch({
+      type: GET_REPOS,
+      payload: res
+    })
+  } catch (err) {
+      const error = err.response
+      // console.error(error)
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: error.data.message, status: error.status }
+      })
+      
+  }
+}
+
+//? ******************************************************************* Get all profile By User ID
+
+export const getProfileByID = (userId) => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE })
+  try {
+    const res = await backendCall.get(`/api/profile/${userId}`)
+    // console.log(res)
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res
     })
   } catch (err) {
       const error = err.response
@@ -57,7 +102,7 @@ const getAllProfiles = () => async dispatch => {
 
 
 
-//* create / edit profile
+//? ******************************************************************* create / edit profile
 
 export const createProfile = (formData, history, token, edit = false) => async dispatch => {
   const config = {
@@ -93,7 +138,7 @@ try {
         })
 }}
 
-//* Create Experience
+//? ******************************************************************* Create Experience
 
 export const addExperience = (formData, history, token) => async dispatch => {
   const config = {
@@ -128,7 +173,7 @@ try {
 }}
 
 
-//* Create Education
+//? ******************************************************************* Create Education
 
 export const addEducation = (formData, history, token) => async dispatch => {
   const config = {
@@ -162,7 +207,7 @@ try {
         })
 }}
 
-//* Delete Experience
+//? ******************************************************************* Delete Experience
 export const deleteExperience = (id, token) => async dispatch => {
   const config = {
     headers: { 
@@ -195,7 +240,7 @@ export const deleteExperience = (id, token) => async dispatch => {
 } 
 
 
-//* Delete Education
+//? ******************************************************************* Delete Education
 
 export const deleteEducation = (id, token) => async dispatch => {
   const config = {
@@ -242,7 +287,7 @@ export const DeleteWholeAccount = (token) => async dispatch => {
   if (window.confirm('Are You sure To delete Your Account ? Beware this cannot be unDone')) {
     try {
     
-     const res = await backendCall.delete(`/api/profile/`, config)
+     await backendCall.delete(`/api/profile/`, config)
      
      dispatch({ type: CLEAR_PROFILE })
      dispatch({ type: DELETE_ACCOUNT })

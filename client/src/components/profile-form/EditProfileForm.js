@@ -26,7 +26,7 @@ const EditProfileForm = ({ profile: { profile, loading }, createProfile, history
         instagram: loading || !profile.socials ? '' : profile.socials.instagram,
         linkedIn: loading || !profile.socials ? '' : profile.socials.linkedIn
       })
-    }, [loading])
+    }, [loading, getCurrentProfile])
 
     const { company, website, location, bio, status, githubusername, skills, facebook, youtube, twitter, instagram, linkedIn } = formData;
 

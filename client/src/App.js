@@ -20,7 +20,10 @@ import Dashboard from './components/dashboard/Dashboard'
 import CreateProfileForm from './components/profile-form/CreateProfileForm'
 import EditProfileForm from './components/profile-form/EditProfileForm'
 import AddExperience from './components/profile-form/AddExperience'
+import Profiles from './components/profiles/Profiles'
 import AddEducation from './components/profile-form/AddEducation'
+import Profile from './components/profile/Profile'
+// import Spinner from './components/layouts/Spinner'
 
 const initialState = {};
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -33,7 +36,7 @@ const App = () => {
     useEffect(() => {
         return Store.dispatch(loadUser())
     }, [])
-    // console.log(Store.getState().auth.token)
+    // console.log(Stor
     return (
         <Provider store={Store}>
             <BrowserRouter>
@@ -45,6 +48,8 @@ const App = () => {
                         <Switch>
                             <Route path='/register' component={Register}/>
                             <Route path='/login' component={Login}/> 
+                            <Route path='/profiles' component={Profiles}/> 
+                            <Route path='/profile/:id' component={Profile}/>
                             <PrivateRoute path='/dashboard' component={Dashboard}/>
                             <PrivateRoute path='/create-profile' component={CreateProfileForm}/> 
                             <PrivateRoute path='/edit-profile' component={EditProfileForm}/>
