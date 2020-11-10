@@ -25,7 +25,24 @@ const postSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'User'
             },
-            liked: Boolean
+            post: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Post'
+            },
+            liked: false
+        }
+    ],
+    unlikes: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'User'
+            },
+            post: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Post'
+            },
+            unliked: false
         }
     ],
     comments: [

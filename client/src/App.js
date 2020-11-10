@@ -23,7 +23,8 @@ import AddExperience from './components/profile-form/AddExperience'
 import Profiles from './components/profiles/Profiles'
 import AddEducation from './components/profile-form/AddEducation'
 import Profile from './components/profile/Profile'
-// import Spinner from './components/layouts/Spinner'
+import Posts from './components/posts/Posts'
+// import CreatePostForm from './components/posts/CreatePostForm'
 
 const initialState = {};
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -50,6 +51,7 @@ const App = () => {
                             <Route path='/login' component={Login}/> 
                             <Route path='/profiles' component={Profiles}/> 
                             <Route path='/profile/:id' component={Profile}/>
+                            <Route path='/posts' component={Posts}/>
                             <PrivateRoute path='/dashboard' component={Dashboard}/>
                             <PrivateRoute path='/create-profile' component={CreateProfileForm}/> 
                             <PrivateRoute path='/edit-profile' component={EditProfileForm}/>

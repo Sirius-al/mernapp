@@ -111,30 +111,30 @@ exports.likePost = async (req, res, next) => {
             let filteredlike = post.likes.filter(likeObj => {
                 return likeObj.user.toString() === req.user.id && likeObj.liked === true || likeObj.liked === false
             })
-            // console.log(filteredlike[0])
-            
-            if (!filteredlike) {
-                post.likes.unshift({ user: req.user.id, liked: true})
-                await post.save()
-                return errRes(res, 200, 'Post already liked')
-            }
+            /* if (filteredlike) {
+              console.log(filteredlike[0])
+            } */
             
             if (filteredlike[0].liked === true) {
                 post.likes.splice(filteredlike[0], 1)
                 await post.save()
-                return errRes(res, 400, 'Post already been liked !')
+                return Res(res, 200, post.likes)
             }
     
             if (filteredlike[0].liked === false) {
                 filteredlike[0].liked = true
                 await post.save()
-                return Res(res, 400, post.likes)
+                return Res(res, 200, post.likes)
             }
+
+            post.likes.unshift({ user: req.user.id, post: post._id, liked: true})
+            await post.save()
+            return errRes(res, 200, post.likes)
             
         } catch (err) {
             // console.log(err)
 
-            post.likes.unshift({ user: req.user.id, liked: true})
+            post.likes.unshift({ user: req.user.id, post: post._id, liked: true})
     
             await post.save()
     
@@ -154,37 +154,36 @@ exports.unLikePost = async (req, res, next) => {
         const post = await Post.findById(req.params.id)
         
         try {
-            let filteredlike = post.likes.filter(likeObj => {
-                return likeObj.user.toString() === req.user.id && likeObj.liked === true || likeObj.liked === false
+            let filteredlike = post.unlikes.filter(likeObj => {
+                return likeObj.user.toString() === req.user.id && likeObj.unliked === true || likeObj.unliked === false
             })
             // console.log(filteredlike[0])
             
-            if (!filteredlike) {
-                post.likes.unshift({ user: req.user.id, liked: false})
+    
+            if (filteredlike[0].unliked === true) {
+                post.unlikes.splice(filteredlike[0], 1)
                 await post.save()
-                return errRes(res, 200, 'Post already liked')
+                return Res(res, 200, post.unlikes)
             }
     
-            if (filteredlike[0].liked === false) {
-                post.likes.splice(filteredlike[0], 1)
+            if (filteredlike[0].unliked === false) {
+                filteredlike[0].unliked = true
                 await post.save()
-                return errRes(res, 400, 'Post already been unliked !')
+                return Res(res, 200, post.unlikes)
             }
-    
-            if (filteredlike[0].liked === true) {
-                filteredlike[0].liked = false
-                await post.save()
-                return Res(res, 400, post.likes)
-            }
+
+            post.unlikes.unshift({ user: req.user.id, post: post._id, unliked: true})
+            await post.save()
+            return Res(res, 200, post.unlikes)
           
         } catch (err) {
             // console.log(err)
 
-            post.likes.unshift({ user: req.user.id, liked: false})
+            post.unlikes.unshift({ user: req.user.id, post: post._id, unliked: true})
 
             await post.save()
     
-            Res(res, 200, post.likes)
+            Res(res, 200, post.unlikes)
         }
         
     } catch (err) {

@@ -23,10 +23,10 @@ router.get('/', postController.getPosts)
 router.get('/:id', postController.getPost)
 
 
-//? Route:    DELETE => api/posts/:id
+//! Route:    DELETE => api/posts/del/:id
 //? Desc:     DELETE a post
 //? access:   Private
-router.delete('/:id', tokenAuth, postController.deletePost)
+router.delete('/del/:id', tokenAuth, postController.deletePost)
 
 
 //? Route:    PATCH => api/posts/like/:id
