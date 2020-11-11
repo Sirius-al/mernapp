@@ -22,7 +22,7 @@ const app = express();
 
 //! database Connection establishing
 
-const db = config.get('MONGOURI')
+const db = 'mongodb+srv://sirius_al:siriusal@cluster0.xw1ay.mongodb.net/dev_connector?retryWrites=true&w=majority'
 
 const connecttoDB = async () => {
     try {
