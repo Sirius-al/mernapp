@@ -1,11 +1,12 @@
 const request = require('request');
 const { Res, errRes } = require('../utils/Res&errRes')
+const config = require('config');
  
 
 exports.getGithubRepos = async (req, res, next) => {
     try {
       const options = {
-        uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.GITHUBCLIENTID}&client_secret=${process.env.GITHUBCLIENTSECRET}`,
+        uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('GITHUBCLIENTID')}&client_secret=${config.get('GITHUBCLIENTSECRET')}`,
         method: 'GET',
         headers: {
             'user-agent': 'node.js'

@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const config = require('config');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -18,15 +18,11 @@ process.on('uncaughtException', err => {
 //! Initializing special configs
 const app = express();
 
-dotenv.config({
-    path: './production.env'
-})
-
 
 
 //! database Connection establishing
 
-const db = process.env.MONGOURI
+const db = config.get('MONGOURI')
 
 const connecttoDB = async () => {
     try {
@@ -57,9 +53,6 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get('/', (req, res) => {
-    res.send('Server Running');
-});
 
 //@ routes definations
 app.use('/api/users', require('./routes/api/usersRoutes'));
@@ -79,7 +72,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}!`);
 });
