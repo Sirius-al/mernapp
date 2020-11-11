@@ -1,4 +1,5 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const config = require('config');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -18,6 +19,9 @@ process.on('uncaughtException', err => {
 //! Initializing special configs
 const app = express();
 
+dotenv.config({
+    path: './config.env'
+})
 
 
 //! database Connection establishing
