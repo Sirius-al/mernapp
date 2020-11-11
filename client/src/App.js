@@ -24,11 +24,13 @@ import Profiles from './components/profiles/Profiles'
 import AddEducation from './components/profile-form/AddEducation'
 import Profile from './components/profile/Profile'
 import Posts from './components/posts/Posts'
-// import CreatePostForm from './components/posts/CreatePostForm'
+import Post from './components/post/Post'
 
 const initialState = {};
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-const Store = createStore(reducers, initialState, compose(applyMiddleware(thunk), composeEnhancer))
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+// const Store = createStore(reducers, initialState, compose(applyMiddleware(thunk), composeEnhancer))
+const Store = createStore(reducers, initialState, compose(applyMiddleware(thunk)))
 
 
 
@@ -52,6 +54,7 @@ const App = () => {
                             <Route path='/profiles' component={Profiles}/> 
                             <Route path='/profile/:id' component={Profile}/>
                             <Route path='/posts' component={Posts}/>
+                            <Route path='/post/:id' component={Post}/>
                             <PrivateRoute path='/dashboard' component={Dashboard}/>
                             <PrivateRoute path='/create-profile' component={CreateProfileForm}/> 
                             <PrivateRoute path='/edit-profile' component={EditProfileForm}/>

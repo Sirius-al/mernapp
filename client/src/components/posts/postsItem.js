@@ -32,7 +32,7 @@ const PostsItem = ({
             {text && text.length > 500 ? text.replace(/^(.{500}[^\s]*).*/, "$1")+'...' : text}
           </p>
           <p className="post-date">Posted on <Moment format='YYYY/MM/DD'>{date}</Moment></p>
-
+      
           <button onClick={e => like(_id, auth.token)} type="button" className="btn btn-light">
             <i className="fas fa-thumbs-up" />
             {likes.length > 0 && <span> {likes.length}</span>}

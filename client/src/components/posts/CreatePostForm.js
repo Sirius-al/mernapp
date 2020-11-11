@@ -18,6 +18,9 @@ function CreatePostForm({ createPost, token }) {
 
     return (
         <form className="form" onSubmit={e => onFormSubmit(e)}>
+          <div className="bg-primary p">
+            <h3>Say Something...</h3>
+          </div>
           <div className="form-group">
             <input
               type="text"

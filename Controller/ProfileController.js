@@ -128,11 +128,11 @@ exports.deleteProfileUserPosts = async (req, res, next) => {
     } catch (err) {
         console.log(err);
         if (err.kind === 'ObjectId') {
-            res.status(400).json({
+            return res.status(400).json({
                 message: 'No profile found !'
             })
         } else {
-            res.status(500).send('Server error Getting all Profiles')
+            return res.status(500).send('Server error Getting all Profiles')
         }
 
     }
@@ -144,7 +144,7 @@ exports.getProfileByUserId = async (req, res, next) => {
         const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar'])
 
         if (!profile) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: 'No profile found !'
             })
           
@@ -158,11 +158,11 @@ exports.getProfileByUserId = async (req, res, next) => {
     } catch (err) {
         console.log(err);
         if (err.kind === 'ObjectId') {
-            res.status(400).json({
+            return res.status(400).json({
                 message: 'No profile found !'
             })
         } else {
-            res.status(500).send('Server error Getting all Profiles')
+            return res.status(500).send('Server error Getting all Profiles')
         }
 
     }

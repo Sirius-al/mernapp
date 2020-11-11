@@ -196,7 +196,6 @@ exports.unLikePost = async (req, res, next) => {
 
 exports.createComment = async (req, res, next) => {
 
-    if (!req.body.title || validator.isEmpty(req.body.title)) return errRes(res, 400, 'title is Required')
     if (!req.body.description || validator.isEmpty(req.body.description)) return errRes(res, 400, 'description is Required')
     
     
