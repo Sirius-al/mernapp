@@ -2,9 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
-const AppError = require('./utils/AppError');
-const globalErrorHandler = require('./Controller/ErrorController');
+const path = require('path');
 
 
 //! Uncaught Exception ERROR
@@ -21,7 +19,7 @@ process.on('uncaughtException', err => {
 const app = express();
 
 dotenv.config({
-    path: './config.env'
+    path: './production.env'
 })
 
 
@@ -45,15 +43,15 @@ const connecttoDB = async () => {
       process.exit(1)
     }
 }
-connecttoDB()
 //! database Connection established
+connecttoDB()
 
 
 //! INIT middleWares
 app.use(express.json({ extended: false }))
 
 var corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://devsrapport.herokuapp.com/'],
     optionsSuccessStatus: 200
 }
 
@@ -69,12 +67,16 @@ app.use('/api/profile', require('./routes/api/profileRoutes'));
 app.use('/api/posts', require('./routes/api/postsRoutes'));
 app.use('/api/auth', require('./routes/api/authRoutes'));
 
-//! to catch unexpected routes
-app.all('*', (req, res, next) => {
-    next(new AppError(`Cannot find the Route => ${req.originalUrl} <= on the Server `))
-});
-app.use(globalErrorHandler)
+//! serve static assets in production
 
+if (process.env.NODE_ENV === 'production') {
+  //* set static folder
+  app.use(express.static('client/build'))
+
+  app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  });
+}
 
 
 const PORT = process.env.PORT || 5000;
