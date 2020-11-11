@@ -51,7 +51,7 @@ connecttoDB()
 app.use(express.json({ extended: false }))
 
 var corsOptions = {
-    origin: ['http://localhost:3000', 'https://devsrapport.herokuapp.com/'],
+    origin: ['http://localhost:3000', 'https://devrapport.herokuapp.com/'],
     optionsSuccessStatus: 200
 }
 
