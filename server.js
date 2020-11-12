@@ -1,6 +1,5 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const config = require('config');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -20,13 +19,13 @@ process.on('uncaughtException', err => {
 const app = express();
 
 dotenv.config({
-    path: './config.env'
+    path: path.resolve(__dirname, 'config', '.env')
 })
 
 
 //! database Connection establishing
 
-const db = 'mongodb+srv://sirius_al:siriusal@cluster0.xw1ay.mongodb.net/dev_connector?retryWrites=true&w=majority'
+const db = process.env.MONGOURI
 
 const connecttoDB = async () => {
     try {
@@ -51,6 +50,7 @@ connecttoDB()
 app.use(express.json({ extended: false }))
 
 var corsOptions = {
+    // "Access-Control-Allow-Origin": '*',
     origin: ['http://localhost:3000', 'https://devrapport.herokuapp.com/'],
     optionsSuccessStatus: 200
 }
@@ -76,10 +76,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}!`);
 });
+
 
 //! Unhandled Rejection ERROR
 process.on('unhandledRejection', err => {

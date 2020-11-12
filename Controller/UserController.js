@@ -4,7 +4,6 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const validator = require('validator');
-const config = require('config');
 
 exports.userSignUp = async (req, res, next) => {
     try {
@@ -44,7 +43,7 @@ exports.userSignUp = async (req, res, next) => {
             }
         }
 
-        jwt.sign(payload, config.get('JWTSECRET'), {
+        jwt.sign(payload, process.env.JWTSECRET, {
             expiresIn: 360000
         }, (err, token) => {
             if (err) throw err;
@@ -103,7 +102,7 @@ exports.userLogin = async (req, res, next) => {
                 id: user.id
             }
         }
-        jwt.sign(payload, config.get('JWTSECRET'), {
+        jwt.sign(payload, process.env.JWTSECRET, {
             expiresIn: 360000
         }, (err, token) => {
             if (err) throw err;
