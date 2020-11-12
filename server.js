@@ -51,7 +51,7 @@ app.use(express.json({ extended: false }))
 
 var corsOptions = {
     // "Access-Control-Allow-Origin": '*',
-    origin: ['http://localhost:3000', 'https://devrapport.herokuapp.com/'],
+    origin: ['http://localhost:3000', 'https://dev-rapport.herokuapp.com/'],
     optionsSuccessStatus: 200
 }
 
